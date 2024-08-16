@@ -1,35 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUncontrolledFormData } from '../redux/formSlice';
-import { formSchema } from '../schemas/validationSchema';
 import { useNavigate } from 'react-router-dom';
+import { formSchema } from '../schemas/validationSchema';
+import '../App.css';
+import { validCountries } from '../data/countries';
 
 const UncontrolledForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
 
+    // Convert FormData to a plain object
+    const data: any = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    // Manually handle checkbox value
+    data.terms = formData.has('terms'); // Checkbox is checked if it exists in FormData
+
+    // Perform validation
     try {
       await formSchema.validate(data, { abortEarly: false });
-      
-      // Преобразуем изображение в base64
-      const file = formData.get('picture') as File;
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          // Проверяем, что reader.result не равен null перед присвоением
-          data.picture = reader.result.toString();
+      setErrors({});
+
+      // Handle file processing
+      const file = formData.get('picture') as File | null;
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          data.picture = reader.result as string;
           dispatch(setUncontrolledFormData(data));
           navigate('/');
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (validationErrors) {
-      console.log('Validation failed', validationErrors);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        dispatch(setUncontrolledFormData(data));
+        navigate('/');
+      }
+    } catch (validationErrors: any) {
+      const errorObj: { [key: string]: string } = {};
+      validationErrors.inner.forEach((err: any) => {
+        errorObj[err.path] = err.message;
+      });
+      setErrors(errorObj);
     }
   };
 
@@ -37,32 +57,50 @@ const UncontrolledForm = () => {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="name">Name</label>
-        <input id="name" name="name" type="text" />
+        <div className="error-container">
+          {errors.name && <div className="error-message">{errors.name}</div>}
+        </div>
+        <input id="name" name="name" type="text" autoComplete="name" />
       </div>
 
       <div>
         <label htmlFor="age">Age</label>
-        <input id="age" name="age" type="number" />
+        <div className="error-container">
+          {errors.age && <div className="error-message">{errors.age}</div>}
+        </div>
+        <input id="age" name="age" type="text" autoComplete="age" />
       </div>
 
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" />
+        <div className="error-container">
+          {errors.email && <div className="error-message">{errors.email}</div>}
+        </div>
+        <input id="email" name="email" type="email" autoComplete="email" />
       </div>
 
       <div>
         <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" />
+        <div className="error-container">
+          {errors.password && <div className="error-message">{errors.password}</div>}
+        </div>
+        <input id="password" name="password" type="password" autoComplete="new-password" />
       </div>
 
       <div>
         <label htmlFor="confirmPassword">Confirm Password</label>
-        <input id="confirmPassword" name="confirmPassword" type="password" />
+        <div className="error-container">
+          {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
+        </div>
+        <input id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" />
       </div>
 
       <div>
         <label htmlFor="gender">Gender</label>
-        <select id="gender" name="gender">
+        <div className="error-container">
+          {errors.gender && <div className="error-message">{errors.gender}</div>}
+        </div>
+        <select id="gender" name="gender" autoComplete="gender">
           <option value="">Select...</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -71,21 +109,30 @@ const UncontrolledForm = () => {
 
       <div>
         <label htmlFor="terms">Accept Terms & Conditions</label>
+        <div className="error-container">
+          {errors.terms && <div className="error-message">{errors.terms}</div>}
+        </div>
         <input id="terms" name="terms" type="checkbox" />
       </div>
 
       <div>
         <label htmlFor="picture">Upload Picture</label>
+        <div className="error-container">
+          {errors.picture && <div className="error-message">{errors.picture}</div>}
+        </div>
         <input id="picture" name="picture" type="file" />
       </div>
 
       <div>
         <label htmlFor="country">Country</label>
-        <input id="country" name="country" list="country-options" />
+        <div className="error-container">
+          {errors.country && <div className="error-message">{errors.country}</div>}
+        </div>
+        <input id="country" name="country" list="country-options" autoComplete="country" />
         <datalist id="country-options">
-          <option value="USA" />
-          <option value="Canada" />
-          {/* Добавьте сюда остальные страны */}
+          {validCountries.map(country => (
+            <option key={country} value={country} />
+          ))}
         </datalist>
       </div>
 

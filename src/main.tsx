@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux'; // Импортируем Provider
 import store from './redux/store'; // Импортируем store
-import App from './App';
+import App from './pages/MainPage';
 import HookForm from './components/HookForm';
 import UncontrolledForm from './components/UncontrolledForm';
 
