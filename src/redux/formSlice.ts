@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IFormData } from '../schemas/validationSchema'; // Import your IFormData interface
 
 interface FormState {
-  uncontrolledFormData: any;
-  hookFormData: any;
+  uncontrolledFormData: IFormData | null;
+  hookFormData: IFormData | null;
 }
 
 const initialState: FormState = {
@@ -14,10 +15,10 @@ const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setUncontrolledFormData(state, action: PayloadAction<any>) {
+    setUncontrolledFormData(state, action: PayloadAction<IFormData>) {
       state.uncontrolledFormData = action.payload;
     },
-    setHookFormData(state, action: PayloadAction<any>) {
+    setHookFormData(state, action: PayloadAction<IFormData>) {
       state.hookFormData = action.payload;
     },
   },
