@@ -1,42 +1,151 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  font-family: "MS Sans Serif", Tahoma, Geneva, sans-serif;
+  background-color: #c3c3c3;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #ededed;
+  border: 2px solid #000;
+  width: 1000px;
+  margin: 50px auto;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000080;
+}
+
+.app-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-nav li {
+  display: inline;
+  margin-right: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app-nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  padding: 5px;
+  border: 2px solid #000;
+  background-color: #c0c0c0;
+  box-shadow: 2px 2px 0 #808080;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.app-nav a:hover {
+  background-color: #000080;
+  color: #fff;
 }
 
-.card {
-  padding: 2em;
+.data-display {
+  border: 2px solid transparent;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 2px 2px 0 #808080;
 }
 
-.read-the-docs {
-  color: #888;
+.data-display.highlight {
+  border-color: blue;
+  background-color: lightyellow;
+  transition: background-color 0.5s, border-color 0.5s;
+}
+
+.current-forms {
+  flex: 1;
+}
+
+.previous-forms {
+  width: 300px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.previous-form {
+  border: 2px solid #000080;
+  background-color: #c0c0c0;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 2px 2px 0 #000080;
+}
+
+form {
+  background-color: #ededed;
+  border: 2px solid #000;
+  padding: 20px;
+  width: 300px;
+  margin: 20px auto;
+  box-shadow: 2px 2px 0 #000;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: "MS Sans Serif", Tahoma, Geneva, sans-serif;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-family: inherit;
+  border: 2px solid #808080;
+  box-sizing: border-box;
+}
+
+input[type="file"] {
+  padding: 0;
+}
+
+button {
+  background-color: #c0c0c0;
+  border: 2px solid #000080;
+  color: #000000;
+  box-shadow: 2px 2px 0 #000080;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px;
+}
+
+button:hover {
+  background-color: #a0a0a0;
+}
+
+button:disabled {
+  background-color: #a0a0a0;
+  border: 2px solid #808080;
+  color: #606060;
+  cursor: not-allowed;
+}
+
+.error-container {
+  min-height: 20px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  background-color: #ffeded;
+  padding: 2px 5px;
+  border: 1px solid red;
+  display: inline-block;
 }
