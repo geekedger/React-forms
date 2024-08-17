@@ -3,12 +3,12 @@ import { validCountries } from "../data/countries";
 export interface IFormData {
   name?: string | undefined;
   age: number;
-  email?: string   | undefined;
+  email?: string | undefined;
   password?: string | undefined;
   confirmPassword?: string | undefined;
   gender?: string | undefined;
   terms: boolean; // Required
-  picture?: File | FileList | string ; // Required
+  picture?: File | FileList | string; // Required
   country?: string | undefined;
 }
 
@@ -35,7 +35,7 @@ export const formSchema = yup.object<IFormData>().shape({
     .required("Password is required")
     .matches(
       passwordRegEx,
-      "Password must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and 1 special character"
+      "Password must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and 1 special character",
     )
     .min(4, "Password must be at least 4 characters long"),
   confirmPassword: yup
@@ -43,9 +43,12 @@ export const formSchema = yup.object<IFormData>().shape({
     .oneOf([yup.ref("password")], "Passwords must match") // Ensure that it matches `password`
     .required("Confirm Password is required"),
   gender: yup.string().required("Gender is required"),
-  terms: yup.bool().oneOf([true], "You must accept the terms and conditions").required("Terms acceptance is required"),
+  terms: yup
+    .bool()
+    .oneOf([true], "You must accept the terms and conditions")
+    .required("Terms acceptance is required"),
   picture: yup
-  .mixed<File | FileList >()
+    .mixed<File | FileList>()
     .required("Picture is required")
     .test(
       "fileSize",
@@ -64,7 +67,7 @@ export const formSchema = yup.object<IFormData>().shape({
         }
 
         return file.size <= 1024 * 1024; // 1MB
-      }
+      },
     )
     .test("fileType", "Invalid file type", (value) => {
       let file: File | undefined;
@@ -85,9 +88,7 @@ export const formSchema = yup.object<IFormData>().shape({
   country: yup
     .string()
     .required("Country is required")
-    .test(
-      "validCountry",
-      "Invalid country name",
-      (value) => validCountries.includes(value || "")
+    .test("validCountry", "Invalid country name", (value) =>
+      validCountries.includes(value || ""),
     ),
 });

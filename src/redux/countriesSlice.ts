@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { validCountries } from '../data/countries';
-import { RootState } from './store';
+import { createSlice } from "@reduxjs/toolkit";
+import { validCountries } from "../data/countries";
+import { RootState } from "./store";
 
 const initialState = {
   countries: validCountries,
 };
 
 const countriesSlice = createSlice({
-  name: 'countries',
+  name: "countries",
   initialState,
   reducers: {},
 });

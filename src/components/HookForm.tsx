@@ -29,7 +29,7 @@ const HookForm = () => {
 
   const { errors, isValid } = formState;
   const countrySelectOptions = useSelector(
-    (state: RootState) => state.countries.countries
+    (state: RootState) => state.countries.countries,
   );
   const dispatch = useDispatch();
 

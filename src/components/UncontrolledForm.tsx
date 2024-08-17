@@ -12,7 +12,7 @@ const UncontrolledForm = () => {
   const navigate = useNavigate();
 
   const countrySelectOptions = useSelector(
-    (state: RootState) => state.countries.countries
+    (state: RootState) => state.countries.countries,
   );
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -84,7 +84,7 @@ const UncontrolledForm = () => {
               validationError.message;
             return acc;
           },
-          {} as Record<keyof typeof formData, string>
+          {} as Record<keyof typeof formData, string>,
         );
 
         setNameError(errors.name || "");
